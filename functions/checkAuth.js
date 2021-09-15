@@ -1,12 +1,26 @@
 exports.handler = async (event, context) => {
-  const {identity, user} = context.clientContext;
-  console.log('function ran');
+  // console.log('function ran');
 
-  const data = { name: 'mario', age: 35, job: 'plumber' };
+  const guides = [
+    { title: 'Beat all Zelda Bosses Like a Boss', author: 'mario' },
+    { title: 'Mario Kart Shorcuts You Never Knew Existed', author: 'luigi' },
+    { title: 'Ultimate Street Fighter Guide', author: 'chun-li' },
+  ];
 
-  // return response to the browser
+  const { identity, user } = context.clientContext;
+  // console.log(identity);
+  // console.log(user);
+
+  if (user) {
+    // return response to the browser if there is a user logged in
+    return {
+      statusCode: 200,
+      body: JSON.stringify(guides),
+    }
+  }
+
   return {
-    statusCode: 200,
-    body: JSON.stringify(data),
+    statusCode: 401,
+    body: JSON.stringify({ message: 'You must be logged in to see this.' }),
   }
 }
